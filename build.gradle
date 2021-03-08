@@ -3,13 +3,13 @@ plugins {
 }
 
 // Workaround the problem with Node downloading
-repositories.whenObjectAdded {
-    if (it instanceof IvyArtifactRepository) {
-        metadataSources {
-            artifact()
-        }
-    }
-}
+// repositories.whenObjectAdded {
+//     if (it instanceof IvyArtifactRepository) {
+//         metadataSources {
+//             artifact()
+//         }
+//     }
+// }
 
 node {
  download = true
