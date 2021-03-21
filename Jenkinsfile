@@ -1,0 +1,48 @@
+pipeline {
+    agent {
+        label 'kube-worker'
+    }
+    stages {
+        stage('Build Prep') {
+            steps {
+                sh '''#!/bin/bash
+                    sudo apt-get update
+                    sudo apt-get install docker -y
+                '''
+            }
+        }
+        stage('Build') {
+            steps {
+                echo 'Running build automation.'
+                sh './gradlew build --no-daemon'
+                archiveArtifacts artifacts: 'dist/trainSchedule.zip'
+            }
+        }
+        stage('Build Docker Image') {
+            when {
+                branch 'master'
+            }
+            steps {
+                script {
+                    app = docker.build('eryk81/train-schedule')
+                    app.inside {
+                        sh 'echo $(curl localhost:8080'
+                    }
+                }
+            }
+        }
+        stage('Push Docker Image') {
+            when {
+                branch 'master'
+            }
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', '323e0e0d-ab6e-4a64-ac62-c10634c48c47') {
+                        app.push("${env.BUILD_NUMBER}")
+                        app.push("latest")
+                    }
+                }
+            }
+        }
+    }
+}
