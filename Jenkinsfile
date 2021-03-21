@@ -6,8 +6,8 @@ pipeline {
         stage('Build Prep') {
             steps {
                 sh '''#!/bin/bash
-                    sudo apt-get update
-                    sudo apt-get install docker -y
+                    apt-get update
+                    apt-get install docker -y
                 '''
             }
         }
