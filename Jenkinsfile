@@ -1,8 +1,11 @@
 pipeline {
     agent {
-        // Empty Commit
-        label 'kube-worker-dind'
-        // label 'kube-worker'
+        kubernetes {
+            // Empty Commit
+            label 'kube-worker-dind'
+            // label 'kube-worker'
+            defaultContainer 'jnlp'
+        }
     }
     stages {
         stage('Build') {
