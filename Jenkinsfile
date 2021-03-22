@@ -1,8 +1,8 @@
 pipeline {
     agent {
         // Empty Commit
-        // label 'kube-worker-dind'
-        label 'kube-worker'
+        label 'kube-worker-dind'
+        // label 'kube-worker'
     }
     stages {
         stage('Build') {
