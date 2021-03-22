@@ -33,11 +33,6 @@ pipeline {
             steps {
                 container('dind-build') {
                     script {
-                        sh '''#!/bin/bash
-                            pwd
-                            ls -al ${WORKDIR}
-                            cat ${WORKDIR}/Dockerfile
-                        '''
                         app = docker.build('eryk81/train-schedule')
                         app.inside {
                             sh 'echo $(curl localhost:8080)'
