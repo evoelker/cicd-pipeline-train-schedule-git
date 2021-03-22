@@ -8,10 +8,12 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Running build automation.'
-                sh '''#!/bin/bash
-                    chmod +x gradlew
-                    ./gradlew build'
-                '''
+                withGradle {
+                    sh '''#!/bin/bash
+                        chmod +x gradlew
+                        ./gradlew build
+                    '''
+                }
                 archiveArtifacts artifacts: 'dist/trainSchedule.zip'
             }
         }
