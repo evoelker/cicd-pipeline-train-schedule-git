@@ -1,11 +1,17 @@
 pipeline {
     agent {
         kubernetes {
-            // Empty Commit
-            label 'kube-worker-dind'
-            // label 'kube-worker'
+            cloud 'MasterPi ARM Cluster'
             defaultContainer 'jnlp'
+            inheritFrom 'kube-worker-dind'
+            namespace 'ci-cd'
         }
+        // kubernetes {
+        //     // Empty Commit
+        //     label 'kube-worker-dind'
+        //     // label 'kube-worker'
+        //     defaultContainer 'jnlp'
+        // }
     }
     stages {
         stage('Build') {
