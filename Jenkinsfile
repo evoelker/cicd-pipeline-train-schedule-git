@@ -6,12 +6,6 @@ pipeline {
             inheritFrom 'kube-worker-dind'
             namespace 'ci-cd'
         }
-        // kubernetes {
-        //     // Empty Commit
-        //     label 'kube-worker-dind'
-        //     // label 'kube-worker'
-        //     defaultContainer 'jnlp'
-        // }
     }
     stages {
         stage('Build') {
