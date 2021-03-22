@@ -31,8 +31,8 @@ pipeline {
                 branch 'master'
             }
             steps {
-                script {
-                    docker.withServer('tcp://localhost:2375') {
+                container('dind-build') {
+                    script {
                         app = docker.build('eryk81/train-schedule')
                         app.inside {
                             sh 'echo $(curl localhost:8080)'
@@ -46,8 +46,8 @@ pipeline {
                 branch 'master'
             }
             steps {
-                script {
-                    docker.withServer('tcp://localhost:2375') {
+                container('dind-build') {
+                    script {
                         docker.withRegistry('https://registry.hub.docker.com', '323e0e0d-ab6e-4a64-ac62-c10634c48c47') {
                             app.push("${env.BUILD_NUMBER}")
                             app.push("latest")
