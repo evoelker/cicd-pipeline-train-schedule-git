@@ -1,16 +1,8 @@
 pipeline {
     agent {
-        label 'kube-worker'
+        label 'kube-worker-dind'
     }
     stages {
-        stage('Build Prep') {
-            steps {
-                sh '''#!/bin/bash
-                    apt-get update
-                    apt-get install docker -y
-                '''
-            }
-        }
         stage('Build') {
             steps {
                 echo 'Running build automation.'
@@ -26,7 +18,7 @@ pipeline {
                 script {
                     app = docker.build('eryk81/train-schedule')
                     app.inside {
-                        sh 'echo $(curl localhost:8080'
+                        sh 'echo $(curl localhost:8080)'
                     }
                 }
             }
