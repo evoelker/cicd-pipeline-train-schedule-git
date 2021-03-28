@@ -7,6 +7,9 @@ pipeline {
             namespace 'ci-cd'
         }
     }
+    environment {
+        DOCKER_IMAGE_NAME = "eryk81/train-schedule"
+    }
     stages {
         stage('Build') {
             steps {
@@ -27,7 +30,7 @@ pipeline {
             steps {
                 container('dind-build') {
                     script {
-                        app = docker.build('eryk81/train-schedule')
+                        app = docker.build("${DOCKER_IMAGE_NAME}")
                         app.inside {
                             sh 'echo $(curl localhost:8080)'
                         }
@@ -48,6 +51,20 @@ pipeline {
                         }
                     }
                 }
+            }
+        }
+        stage('DeployToProduction') {
+            when {
+                branch 'master'
+            }
+            steps {
+                input 'Deploy to Production?'
+                milestone(1)
+                kubernetesDeploy(
+                    kubeconfigId: 'df57ea49-c6e3-4652-ba8a-d45c26b7fc85',
+                    configs: 'deployment-train-schedule.yml',
+                    enableConfigSubstitution: true
+                )
             }
         }
     }
