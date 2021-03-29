@@ -43,8 +43,8 @@ spec:
   - protocol: TCP
     port: 8080
     targetPort: 8080
----
 
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -66,7 +66,7 @@ spec:
     spec:
       containers:
         - name: train-schedule
-          image: $DOCKER_IMAGE_NAME:$BUILD_NUMBER
+          image: ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

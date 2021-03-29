@@ -46,7 +46,7 @@ pipeline {
                 container('dind-build') {
                     script {
                         docker.withRegistry('https://registry.hub.docker.com', '323e0e0d-ab6e-4a64-ac62-c10634c48c47') {
-                            app.push("${env.BUILD_NUMBER}")
+                            app.push("${BUILD_NUMBER}")
                             app.push("latest")
                         }
                     }
